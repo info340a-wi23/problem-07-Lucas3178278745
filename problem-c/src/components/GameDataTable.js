@@ -5,11 +5,15 @@ import _ from 'lodash'; //import external library!
 export default function GameDataTable(props) {
 
   //Your work goes here
-
+  const [sortByCriteria, setSortByCriteria] = useState(null);
   //convert data into rows
-  const rows = props.data.map((match) => {
-    return <GameDataRow key={match.year} game={match} />
+  const rows = _.sortBy(props.data, sortByCriteria).map((match) => {
+    return <GameDataRow key={match.year} game={match} />;
   });
+
+  function handleClick(event) {
+    setSortByCriteria(event.currentTarget.name);
+  }
 
   return (
     <div className="table-responsive">
@@ -18,19 +22,19 @@ export default function GameDataTable(props) {
           <tr>
             <th>
               Year
-              <SortButton name="year" />
+              <SortButton name="year" active={sortByCriteria === 'year'} onClick={handleClick} />
             </th>
             <th className="text-end">
               Winner
-              <SortButton name="winner" />
+              <SortButton name="winner" active={sortByCriteria === 'winner'} onClick={handleClick} />
             </th>
             <th className="text-center">
               Score
-              <SortButton name="score" />
+              <SortButton name="score" active={sortByCriteria === 'score'} onClick={handleClick} />
             </th>
             <th>
               Runner-Up
-              <SortButton name="runner_up" />
+              <SortButton name="runner_up" active={sortByCriteria === 'runner_up'} onClick={handleClick} />
             </th>
           </tr>
         </thead>
