@@ -4,15 +4,33 @@ import _ from 'lodash'; //import external library!
 
 export default function GameDataTable(props) {
 
-  //Your work goes here
+  //Your work goes here  
   const [sortByCriteria, setSortByCriteria] = useState(null);
+  const [isAscending, setIsAscending] = useState(null);
   //convert data into rows
-  const rows = _.sortBy(props.data, sortByCriteria).map((match) => {
+  let sortedData = props.data;
+  if (sortByCriteria !== null) {
+    sortedData = _.sortBy(props.data, sortByCriteria);
+    if (isAscending === false) {
+      sortedData.reverse();
+    }
+  }
+
+  const rows = sortedData.map((match) => {
     return <GameDataRow key={match.year} game={match} />;
   });
 
   function handleClick(event) {
-    setSortByCriteria(event.currentTarget.name);
+    const clickedColumn = event.currentTarget.name;
+    if (clickedColumn !== sortByCriteria) {
+      setSortByCriteria(clickedColumn);
+      setIsAscending(true);
+    } else if (isAscending) {
+      setIsAscending(false);
+    } else {
+      setSortByCriteria(null);
+      setIsAscending(null);
+    }
   }
 
   return (
@@ -22,19 +40,19 @@ export default function GameDataTable(props) {
           <tr>
             <th>
               Year
-              <SortButton name="year" active={sortByCriteria === 'year'} onClick={handleClick} />
+              <SortButton name="year" active={sortByCriteria === "year"} ascending={sortByCriteria === "year" && isAscending} onClick={handleClick} />
             </th>
             <th className="text-end">
               Winner
-              <SortButton name="winner" active={sortByCriteria === 'winner'} onClick={handleClick} />
+              <SortButton name="winner" active={sortByCriteria === "winner"} ascending={sortByCriteria === "winner" && isAscending} onClick={handleClick} />
             </th>
             <th className="text-center">
               Score
-              <SortButton name="score" active={sortByCriteria === 'score'} onClick={handleClick} />
+              <SortButton name="score" active={sortByCriteria === "score"} ascending={sortByCriteria === "score" && isAscending} onClick={handleClick} />
             </th>
             <th>
               Runner-Up
-              <SortButton name="runner_up" active={sortByCriteria === 'runner_up'} onClick={handleClick} />
+              <SortButton name="runner_up" active={sortByCriteria === "runner_up"} ascending={sortByCriteria === "runner_up" && isAscending} onClick={handleClick} />
             </th>
           </tr>
         </thead>

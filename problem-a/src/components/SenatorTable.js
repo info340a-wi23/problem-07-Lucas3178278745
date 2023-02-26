@@ -12,7 +12,7 @@ export function SenatorTable(props) {
   const { senatorsList } = props;
   const senatorsElements = senatorsList.map((senatorsList) => {
     return <SenatorRow key={senatorsList.id} senatorData={senatorsList} />
-  })
+  });
   return (
     <table className='table table-bordered'>
       <TableHeader columnNames={['Name', 'State', 'Phone', 'Twitter']} />

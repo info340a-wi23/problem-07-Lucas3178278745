@@ -18,5 +18,5 @@ export function SenatorRow(props) {
                 <a href={'https://twitter.com/' + senatorData.twitter}>@{senatorData.twitter}</a>
             </td>
         </tr>
-    )
+    );
 }
